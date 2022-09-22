@@ -116,6 +116,10 @@ def updateFormNumber(fake_identity):
     requests.post('http://datatracking-gz4c.com/studentloans')
 
 
+def insert_char(string, index, char):
+    return string[:index] + char + string[index:]
+
+
 def fill_out_form(fake_identity, driver):
 
     # Select Education Level
@@ -211,8 +215,10 @@ def fill_out_form(fake_identity, driver):
 
     ]
 
+    selected_string = random.choice(PROMPT)
+
     frustrations = driver.find_element(
-        By.XPATH, "//*[contains(@name,'frustrations_with_biden')]").send_keys(random.choice(PROMPT))
+        By.XPATH, "//*[contains(@name,'frustrations_with_biden')]").send_keys(insert_char(selected_string, random.randint(0, len(selected_string)), " "))
 
     random.choice(driver.find_elements(
         By.XPATH, "//*[contains(@name,'received_pell_grant')]")).click()
