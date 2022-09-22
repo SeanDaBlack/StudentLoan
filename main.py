@@ -227,8 +227,12 @@ def fill_out_form(fake_identity, driver):
         By.XPATH, "//*[contains(@name,'email')]").send_keys(fake_identity['email'])
     driver.find_element(
         By.XPATH, "//*[contains(@name,'state')]").send_keys(abbrev_to_us_state[ST])
-    driver.find_element(
-        By.XPATH, "//*[contains(@name,'zip')]").send_keys(fake.postcode_in_state(ST))
+    try:
+        driver.find_element(
+            By.XPATH, "//*[contains(@name,'zip')]").send_keys(fake.postcode_in_state(ST))
+    except Exception as e:
+        print("Error, skipping")
+        return False
 
     time.sleep(3)
     random.choice(driver.find_elements(
@@ -248,15 +252,16 @@ if __name__ == "__main__":
         fake_identity = createFakeIdentity()
         time.sleep(1)
 
-        fill_out_form(fake_identity, driver)
-        print('Thank you: {} {} for filling out this form'.format(
-            fake_identity['first_name'], fake_identity['last_name']))
+        if fill_out_form(fake_identity, driver):
+            print('Thank you: {} {} for filling out this form'.format(
+                fake_identity['first_name'], fake_identity['last_name']))
+            total_forms += 1
+            print(f"Total Forms: {total_forms}")
+            time.sleep(1)
+            updateFormNumber(fake_identity)
 
         # print(fake_identity['email'],
         #       fake_identity['password'])
-        time.sleep(1)
-        updateFormNumber(fake_identity)
 
-        time.sleep(1)
         driver.close()
         time.sleep(1)
