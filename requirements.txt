@@ -3,3 +3,4 @@ Faker==9.9.1
 requests==2.27.1
 selenium==4.4.3
 webdriver_manager==3.5.4
+random-user-agent~=1.0.1
