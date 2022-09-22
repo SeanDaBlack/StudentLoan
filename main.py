@@ -59,7 +59,7 @@ def start_driver(url):
 
         options.add_argument("window-size=1200x600")
         driver = webdriver.Chrome(
-            ChromeDriverManager().install(), options=options)
+            'chromedriver', options=options)
 
     else:
         options = webdriver.ChromeOptions()
@@ -237,6 +237,7 @@ def fill_out_form(fake_identity, driver):
     time.sleep(3)
     random.choice(driver.find_elements(
         By.XPATH, "//*[contains(@type,'submit')]")).click()
+    return True
 
 
 if __name__ == "__main__":
